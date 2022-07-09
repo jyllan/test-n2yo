@@ -2,6 +2,14 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default function positions(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json([{ name: 'Satellite 1' }]);
+import { cachedFetch } from '@/lib/cache';
+
+export default async function positions(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  // Temporarily call local hello api
+  // TODO: Call n2yo
+  const data = await cachedFetch('http://localhost:3000/api/hello');
+  res.status(200).json(data);
 }

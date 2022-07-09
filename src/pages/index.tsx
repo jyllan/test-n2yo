@@ -27,11 +27,16 @@ export default function HomePage() {
 
   const onClick = useCallback(async () => {
     setIsLoading(true);
-    const data = await getPositions();
-    setIsLoading(false);
-    if (data) {
-      setPositions(data);
-    } else {
+    try {
+      const data = await getPositions();
+      setIsLoading(false);
+      if (data.status === 200) {
+        const pos = await data.json();
+        setPositions(pos as SatellitePosition[]);
+      } else {
+        setHasError(true);
+      }
+    } catch (error) {
       setHasError(true);
     }
   }, [getPositions]);
