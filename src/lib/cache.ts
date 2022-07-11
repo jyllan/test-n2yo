@@ -5,11 +5,10 @@ export const cachedFetch = async (url: string) => {
   if (cachedResponse) {
     return cachedResponse;
   } else {
-    // TODO: set to 1 hour
-    const minutes = 0.5;
+    const hours = 1;
     const response = await fetch(url);
     const data = await response.json();
-    cache.put(url, data, minutes * 1000 * 60);
+    cache.put(url, data, hours * 1000 * 60 * 60);
     return data;
   }
 };

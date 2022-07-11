@@ -1,0 +1,9 @@
+.satellites-table {
+  &__data {
+    min-width: 200px;
+
+    &:first-child {
+      min-width: 50px;
+    }
+  }
+}

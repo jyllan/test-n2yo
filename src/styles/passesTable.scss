@@ -1,0 +1,13 @@
+.passes-table {
+  &__content {
+    padding-bottom: 0 !important;
+  }
+  &__header {
+    display: none !important;
+  }
+  .passes-table__footer {
+    &--hidden {
+      display: none;
+    }
+  }
+}

@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 
-import { useGetPositions } from '@/hooks/useGetPositions';
+import { useGetSatellitesData } from '@/hooks/useGetSatellitesData';
 
 import Button from '@/components/buttons/Button';
 import Layout from '@/components/layout/Layout';
+import SatellitesTable from '@/components/SatellitesTable';
 import Seo from '@/components/Seo';
 
-import { SatellitePosition } from '@/types/SatellitePosition';
+import { SatelliteData } from '@/types/SatellitesData';
 
 /**
  * SVGR Support
@@ -18,33 +19,32 @@ import { SatellitePosition } from '@/types/SatellitePosition';
  */
 
 export default function HomePage() {
-  const getPositions = useGetPositions().get;
-  const [positions, setPositions] = useState<SatellitePosition[] | undefined>(
-    undefined
-  );
+  const getSatellitesData = useGetSatellitesData().get;
+  const [satellitesData, setSatellitesData] = useState<
+    SatelliteData[] | undefined
+  >(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   const onClick = useCallback(async () => {
     setIsLoading(true);
     try {
-      const data = await getPositions();
-      setIsLoading(false);
-      if (data.status === 200) {
-        const pos = await data.json();
-        setPositions(pos as SatellitePosition[]);
+      const data = await getSatellitesData();
+      if (data) {
+        setSatellitesData(data);
       } else {
         setHasError(true);
       }
     } catch (error) {
       setHasError(true);
     }
-  }, [getPositions]);
+    setIsLoading(false);
+  }, [getSatellitesData]);
 
   useEffect(() => {
     if (isLoading) {
       setHasError(false);
-      setPositions(undefined);
+      setSatellitesData(undefined);
     }
   }, [isLoading]);
 
@@ -54,25 +54,19 @@ export default function HomePage() {
 
       <main>
         <section className='bg-white'>
-          <div className='layout flex min-h-screen flex-col items-center  '>
+          <div className='layout flex  flex-col items-center  '>
             <h1 className='mt-4'>Locate Galileo satellites</h1>
             <Button onClick={onClick} variant='primary' className='mt-6'>
               Display Galileo satellites position
             </Button>
-            {isLoading && (
-              <div className='loading mt-6 flex justify-center'>Loading...</div>
-            )}
+          </div>
+          <div className='flex justify-center'>
+            {isLoading && <div className='loading mt-6'>Loading...</div>}
             {hasError && (
-              <div className='loading mt-6 flex justify-center'>
-                An error occured, please retry
-              </div>
+              <div className='loading mt-6'>An error occured, please retry</div>
             )}
-            {!isLoading && positions && (
-              <div className='positions mt-6 flex justify-center'>
-                {positions.map((position) => {
-                  return position.name;
-                })}
-              </div>
+            {!isLoading && satellitesData && (
+              <SatellitesTable data={satellitesData} />
             )}
           </div>
         </section>
