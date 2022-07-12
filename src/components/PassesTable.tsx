@@ -7,7 +7,7 @@ import 'react-tailwind-table/dist/index.css';
 
 import { SatellitePassesData } from '@/types/SatellitesData';
 
-const PASSES_PER_ROW = 10;
+export const PASSES_PER_ROW = 10;
 type SatellitePassesDataFormated = SatellitePassesData & {
   startUTCFormated: string;
   endUTCFormated: string;

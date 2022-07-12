@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useGetSatellitesData } from '@/hooks/useGetSatellitesData';
 
@@ -28,6 +28,8 @@ export default function HomePage() {
 
   const onClick = useCallback(async () => {
     setIsLoading(true);
+    setHasError(false);
+    setSatellitesData(undefined);
     try {
       const data = await getSatellitesData();
       if (data) {
@@ -41,22 +43,19 @@ export default function HomePage() {
     setIsLoading(false);
   }, [getSatellitesData]);
 
-  useEffect(() => {
-    if (isLoading) {
-      setHasError(false);
-      setSatellitesData(undefined);
-    }
-  }, [isLoading]);
-
   return (
     <Layout>
       <Seo />
 
       <main>
-        <section className='bg-white'>
+        <section className='page-index bg-white'>
           <div className='layout flex  flex-col items-center  '>
             <h1 className='mt-4'>Locate Galileo satellites</h1>
-            <Button onClick={onClick} variant='primary' className='mt-6'>
+            <Button
+              onClick={onClick}
+              className='load-button mt-6'
+              variant='primary'
+            >
               Display Galileo satellites position
             </Button>
           </div>

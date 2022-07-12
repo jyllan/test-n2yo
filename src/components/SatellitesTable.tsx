@@ -38,7 +38,7 @@ export default function SatellitesTable({ data }: { data: SatelliteData[] }) {
 
   const rowRender: Irender_row = (row, column, display_value) => {
     if (column.field === 'passes') {
-      if (row.passes) {
+      if (row.passes?.length) {
         return <PassesTable data={row.passes} />;
       } else {
         return `No visual passes in the next ${DAYS_OF_PREDICTION} days`;
@@ -57,7 +57,7 @@ export default function SatellitesTable({ data }: { data: SatelliteData[] }) {
             orbitalSpeed: getOrbitalSpeed(satelliteData.position.sataltitude),
           };
         })
-        .sort((a, b) => a.orbitalSpeed - b.orbitalSpeed),
+        .sort((a, b) => b.orbitalSpeed - a.orbitalSpeed),
     [data]
   );
 

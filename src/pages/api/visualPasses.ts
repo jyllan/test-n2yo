@@ -6,7 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { cachedFetch } from '@/lib/cache';
 
-import satellites from '../../satellites.json';
+import satellites from '@/satellites.json';
 
 const MIN_VISIBILITY_DURATION = 300; // seconds // -> 5 minutes
 export const DAYS_OF_PREDICTION = 2;
