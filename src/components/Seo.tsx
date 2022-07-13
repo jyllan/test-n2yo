@@ -19,6 +19,7 @@ const defaultMeta = {
 type SeoProps = {
   date?: string;
   templateTitle?: string;
+  image?: string;
 } & Partial<typeof defaultMeta>;
 
 export default function Seo(props: SeoProps) {
